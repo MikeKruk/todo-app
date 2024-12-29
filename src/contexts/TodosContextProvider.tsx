@@ -22,13 +22,27 @@ export default function TodosContextProvider({ children }: TodosProviderProps) {
 	const totalNumberOfTodos = todos.length;
 	const totalNumberOfUserTodos = userTodos.length;
 	const numberOfCompletedTodos = todos.filter(todo => todo.completed).length;
-	const numberOfCompletedUserTodos = userTodos.filter(todo => todo.completed).length;
+	const numberOfCompletedUserTodos = userTodos.filter(
+		todo => todo.completed
+	).length;
 
 	const handelAddTodo = (todoText: string) => {
-		if (todos.some(todo => todo.title === todoText) || userTodos.some(todo => todo.title === todoText)) {
-			toast.error(`Todo ${todoText} already exists`);
-			return;
+		if (isAuthenticated) {
+			if (userTodos.some(todo => todo.title === todoText)) {
+				console.log('userTodos', userTodos, 'todos', todos);
+
+				toast.error(`Todo ${todoText} already exists`);
+				return;
+			}
+		} else {
+			if (todos.some(todo => todo.title === todoText)) {
+				console.log('userTodos', userTodos, 'todos', todos);
+
+				toast.error(`Todo ${todoText} already exists`);
+				return;
+			}
 		}
+
 		if (todoText.trim() === '') {
 			toast.error(`Todo ${todoText} cannot be empty`);
 			return;
@@ -116,13 +130,13 @@ export default function TodosContextProvider({ children }: TodosProviderProps) {
 		<TodosContext.Provider
 			value={{
 				todos,
-        userTodos,
+				userTodos,
 				todoText,
 				setTodoText,
 				totalNumberOfTodos,
-        totalNumberOfUserTodos,
+				totalNumberOfUserTodos,
 				numberOfCompletedTodos,
-        numberOfCompletedUserTodos,
+				numberOfCompletedUserTodos,
 				handelAddTodo,
 				handelToggleTodo,
 				handelDeleteTodo,
