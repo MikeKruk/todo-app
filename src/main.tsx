@@ -9,10 +9,18 @@ import './index.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<KindeProvider
-		clientId="873d28a9475643dd8b760ec8f899cdc6"
-		domain="https://mikemo.kinde.com"
-		redirectUri="http://localhost:5173"
-		logoutUri="http://localhost:5173"
+			clientId='873d28a9475643dd8b760ec8f899cdc6'
+			domain='https://mikemo.kinde.com'
+			redirectUri={
+				process.env.NODE_ENV === 'production'
+					? 'https://todo-app-mikhails-projects-1f34ecce.vercel.app/'
+					: 'http://localhost:5173'
+			}
+			logoutUri={
+				process.env.NODE_ENV === 'production'
+					? 'https://todo-app-mikhails-projects-1f34ecce.vercel.app/'
+					: 'http://localhost:5173'
+			}
 		>
 			<TodosThemeProvider>
 				<TodosContextProvider>
